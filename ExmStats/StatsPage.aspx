@@ -8,63 +8,100 @@
 
 <script runat="server">
 
-        protected void Button1_Click(object sender, EventArgs e)
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        bool flag = ValidateData(MessageIdTextBox, MessageRootTextBox);
+
+        if (flag)
         {
-            bool flag = ValidateData(MessageIdTextBox, MessageRootTextBox);
-
-            if (flag)
-            {
-                RequestMongoData();
-                RequestSqlData();
-            }
-
+            RequestMongoData();
+            RequestSqlData();
         }
 
-        private void RequestSqlData()
-        {
-            string reportingConnectionString = ConfigurationManager.ConnectionStrings["reporting"].ConnectionString;
-            using (SqlConnection myConnection = new SqlConnection(reportingConnectionString))
-            {
-                string requestToSql = String.Format("Select * FROM [dbo].[ReportDataView] WHERE [SegmentId] = '7558FC89-C25F-4606-BBC5-43B91A382AC9' and DimensionKey like '%{0}%'", IntegrateMessageIDandRoot());
-                SqlCommand cmd = new SqlCommand(requestToSql, myConnection);
-                myConnection.Open();
+    }
 
-                using (SqlDataReader oReader = cmd.ExecuteReader())
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!keysEnableCheckBox.Checked)
+        {
+            textAnalyticsDB.Visible = false;
+            analyticsDB.Visible = false;
+            textReportingDB.Visible = false;
+            reportingDB.Visible = false;
+            textUser.Visible = false;
+            textPassword.Visible = false;
+            user.Visible = false;
+            password.Visible = false;
+        }
+        else
+        {
+            textAnalyticsDB.Visible = true;
+            analyticsDB.Visible = true;
+            textReportingDB.Visible = true;
+            reportingDB.Visible = true;
+            textUser.Visible = true;
+            textPassword.Visible = true;
+            user.Visible = true;
+            password.Visible = true;
+        }
+    }
+
+    private void RequestSqlData()
+    {
+        using (SqlConnection myConnection = new SqlConnection(getSQLConnectionString()))
+        {
+            string requestToSql = String.Format("Select * FROM [dbo].[ReportDataView] WHERE [SegmentId] = '7558FC89-C25F-4606-BBC5-43B91A382AC9' and DimensionKey like '%{0}%'", IntegrateMessageIDandRoot());
+            SqlCommand cmd = new SqlCommand(requestToSql, myConnection);
+            myConnection.Open();
+
+            using (SqlDataReader oReader = cmd.ExecuteReader())
+            {
+                while (oReader.Read())
                 {
-                    while (oReader.Read())
-                    {
-                        string dimensionkey = oReader["DimensionKey"].ToString();
-                        string visitsRowValue = oReader["Visits"].ToString();
-                        string countRowValue = oReader["Count"].ToString();
-                        string eventOfRow = FindEventInDimensionKey(dimensionkey);
-                        CheckRowEventType(eventOfRow, visitsRowValue, countRowValue);
-                    }
-
-                    myConnection.Close();
+                    string dimensionkey = oReader["DimensionKey"].ToString();
+                    string visitsRowValue = oReader["Visits"].ToString();
+                    string countRowValue = oReader["Count"].ToString();
+                    string eventOfRow = FindEventInDimensionKey(dimensionkey);
+                    CheckRowEventType(eventOfRow, visitsRowValue, countRowValue);
                 }
+
+                myConnection.Close();
             }
         }
+    }
 
-        private void RequestMongoData()
+    private void RequestMongoData()
+    {
+        string connectionString = ConfigurationManager.ConnectionStrings["analytics"].ConnectionString;
+        MongoUrl mongoUrl = new MongoUrl(connectionString);
+        var server = new MongoClient(connectionString).GetServer();
+        var db = server.GetDatabase(mongoUrl.DatabaseName);
+        //
+        var col = db.GetCollection<BsonDocument>("Interactions");
+        var mongoInteractionsList = CreateMongoInteractionsList();
+        var mongoControlsList = CreateMongoControlsList();
+        for (int i = 0; i < mongoInteractionsList.Count; i++)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["analytics"].ConnectionString;
-            MongoUrl mongoUrl = new MongoUrl(connectionString);
-            var server = new MongoClient(connectionString).GetServer();
-            var db = server.GetDatabase(mongoUrl.DatabaseName);
+            IMongoQuery mongoQuery = MongoDB.Driver.Builders.Query.EQ("Pages.PageEvents.Name", mongoInteractionsList[i]);
+            IMongoQuery mongoQuery2 = MongoDB.Driver.Builders.Query.Matches("Pages.PageEvents.Data", new BsonRegularExpression(MessageIdTextBox.Text));
+            IMongoQuery interSectionQuery = MongoDB.Driver.Builders.Query.And(mongoQuery, mongoQuery2);
+            var resultQuery = col.Find(interSectionQuery);
+            mongoControlsList[i].Text = resultQuery.ToList().Count.ToString();
             //
-            var col = db.GetCollection<BsonDocument>("Interactions");
-            var mongoInteractionsList = CreateMongoInteractionsList();
-            var mongoControlsList = CreateMongoControlsList();
-            for (int i = 0; i < mongoInteractionsList.Count; i++)
-            {
-                IMongoQuery mongoQuery = MongoDB.Driver.Builders.Query.EQ("Pages.PageEvents.Name", mongoInteractionsList[i]);
-                IMongoQuery mongoQuery2 = MongoDB.Driver.Builders.Query.Matches("Pages.PageEvents.Data", new BsonRegularExpression(MessageIdTextBox.Text));
-                IMongoQuery interSectionQuery = MongoDB.Driver.Builders.Query.And(mongoQuery, mongoQuery2);
-                var resultQuery = col.Find(interSectionQuery);
-                mongoControlsList[i].Text = resultQuery.ToList().Count.ToString();
-                //
-            }
-        }        
+        }
+    }
+
+    private string getSQLConnectionString()
+    {
+        if (reportingDB.Text.Length > 1)
+        {
+            return String.Format("Initial Catalog={0};Integrated Security=False;User ID={1};Password={2}", reportingDB.Text, user.Text, password.Text);
+        }
+        else
+        {
+            return ConfigurationManager.ConnectionStrings["reporting"].ConnectionString;
+        }
+    }
 </script>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -83,19 +120,37 @@
 <body style="height: 675px">
     <form id="form1" runat="server">
     <div>
-    
-        Message Root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:TextBox ID="MessageRootTextBox" runat="server" Width="255px"></asp:TextBox>
+        <p>
+        Message Root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:TextBox ID="MessageRootTextBox" runat="server" Width="324px"></asp:TextBox>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <br />
-        <br />
+        </p>
         Message ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:TextBox ID="MessageIdTextBox" runat="server" Width="261px"></asp:TextBox>
+        <asp:TextBox ID="MessageIdTextBox" runat="server" Width="322px"></asp:TextBox>
         </div>
-        <br />
 
-        <asp:Label ID="Label17" runat="server" Font-Bold="True" Font-Italic="False" Font-Size="Larger" ForeColor="#FF3300" Text=" "></asp:Label>
-        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Check databases" />
+         <p>
+                <asp:Label runat="server" Text="Checkin if databases do not belong to the current solution and you want to set their names manually:"/>          
+                <asp:CheckBox runat="server" Text=" " ID="keysEnableCheckBox"/>
+             </p><p>
+                <asp:Button runat="server" Text="Confirm checkbox changing" />
+            </p>
+            
+            <p>
+                <asp:Label runat="server" ID="textAnalyticsDB" AssociatedControlID="analyticsDB" Text="Analytics database: " />
+                <asp:TextBox runat="server" TextMode="SingleLine" ID="analyticsDB" Width="222px" />
+            </p>
+                <asp:Label runat="server" ID="textReportingDB" AssociatedControlID="reportingDB" Text="Reporting database: " />
+                <asp:TextBox runat="server" TextMode="SingleLine" ID="reportingDB" Width="216px" />
+                <asp:Label runat="server" ID="textUser" AssociatedControlID="User" Text="SQL User: " />
+                <asp:TextBox runat="server" TextMode="SingleLine" ID="user" Width="90px" />
+                <asp:Label runat="server" ID="textPassword" AssociatedControlID="password" Text="SQL Password: " />
+                <asp:TextBox runat="server" TextMode="SingleLine" ID="password" Width="93px" />
+
+                 <br />
+        <br /> <br />
         <br />
+        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Check databases statistics" Height="48px" Width="318px" />
+         
         <br />
         <br />
         <table style="width:40%">
