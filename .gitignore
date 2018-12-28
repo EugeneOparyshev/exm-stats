@@ -1,0 +1,7 @@
+.vs/
+packages/
+ExmStats/bin/
+ExmStats/obj/
+*.pubxml
+*.user
+*.suo
