@@ -72,8 +72,11 @@
     <title></title>
     <style type="text/css">
         #form1 {
-            height: 578px;
-            width: 837px;
+            height: 366px;
+            width: 793px;
+        }
+		#table {
+            text-align:center;
         }
     </style>
 </head>
@@ -81,68 +84,69 @@
     <form id="form1" runat="server">
     <div>
     
+        Message Root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:TextBox ID="MessageRootTextBox" runat="server" Width="255px"></asp:TextBox>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <br />
         <br />
-        <br />
-        <br />
-        <br />
-        <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Message Root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Message ID</div>
-        <br />
-        <br />
-        <asp:TextBox ID="MessageRootTextBox" runat="server" Width="255px"></asp:TextBox>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Message ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:TextBox ID="MessageIdTextBox" runat="server" Width="261px"></asp:TextBox>
-        <br />
-        <br />
-        <asp:Label ID="Label17" runat="server" Font-Bold="True" Font-Italic="False" Font-Size="Larger" ForeColor="#FF3300" Text=" "></asp:Label>
-        <br />
-        <br />
-        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Check SQL" />
-        <br />
-        <br />
-        <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opened&nbsp;&nbsp;&nbsp;&nbsp; Clicked&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unique Opened&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unique Clicked&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bounced&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unsubscribed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spam&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
-        <br />
-        Analytics&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <div style="display:inline-block;">
-        <asp:Label ID="Label9" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-        <asp:Label ID="Label10" runat="server" Text="-"></asp:Label>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-        <asp:Label ID="Label11" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Label ID="Label12" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-        <asp:Label ID="Label13" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Label ID="Label14" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-        <asp:Label ID="Label15" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Label ID="Label16" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <br />
+
+        <asp:Label ID="Label17" runat="server" Font-Bold="True" Font-Italic="False" Font-Size="Larger" ForeColor="#FF3300" Text=" "></asp:Label>
+        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Check databases" />
         <br />
-        SQL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <div style="display:inline-block;">
-        <asp:Label ID="Label1" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-        <asp:Label ID="Label2" runat="server" Text="-"></asp:Label>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-        <asp:Label ID="Label3" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Label ID="Label4" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-        <asp:Label ID="Label5" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Label ID="Label6" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-        <asp:Label ID="Label7" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Label ID="Label8" runat="server" Text="-"></asp:Label>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <br />
+        <br />
+        <table style="width:40%">
+  <tr>
+    <th></th>
+    <th>Analytics</th> 
+    <th>Reporting</th>
+  </tr>
+  <tr>
+    <td>Sent</td>
+    <td id="table"><asp:Label ID="Label9" runat="server" Text="-"></asp:Label></td>
+    <td id="table"><asp:Label ID="Label1" runat="server" Text="-"></asp:Label></td>
+  </tr>
+  <tr>
+    <td>Opened</td>
+    <td id="table"><asp:Label ID="Label10" runat="server" Text="-"></asp:Label></td>
+    <td id="table"><asp:Label ID="Label2" runat="server" Text="-"></asp:Label></td>
+  </tr>
+  <tr>
+    <td>Clicked</td>
+    <td id="table"><asp:Label ID="Label11" runat="server" Text="-"></asp:Label></td>
+    <td id="table"><asp:Label ID="Label3" runat="server" Text="-"></asp:Label></td>
+  </tr>
+              <tr>
+    <td>Unique Opened</td>
+    <td id="table"><asp:Label ID="Label12" runat="server" Text="-"></asp:Label></td>
+    <td id="table"><asp:Label ID="Label4" runat="server" Text="-"></asp:Label></td>
+  </tr>
+              <tr>
+    <td>Unique Clicked</td>
+    <td id="table"><asp:Label ID="Label13" runat="server" Text="-"></asp:Label></td>
+    <td id="table"><asp:Label ID="Label5" runat="server" Text="-"></asp:Label></td>
+  </tr>
+              <tr>
+    <td>Bounced</td>
+    <td id="table"><asp:Label ID="Label14" runat="server" Text="-"></asp:Label></td>
+    <td id="table"><asp:Label ID="Label6" runat="server" Text="-"></asp:Label></td>
+  </tr>
+              <tr>
+    <td>Unsubscribed</td>
+    <td id="table"><asp:Label ID="Label15" runat="server" Text="-"></asp:Label></td>
+    <td id="table"><asp:Label ID="Label7" runat="server" Text="-"></asp:Label></td>
+  </tr>
+            <tr>
+    <td>Bounced</td>
+    <td id="table"><asp:Label ID="Label16" runat="server" Text="-"></asp:Label></td>
+    <td id="table"><asp:Label ID="Label8" runat="server" Text="-"></asp:Label></td>
+  </tr>
+
+</table>
+        
         </div>
     </form>
 </body>
